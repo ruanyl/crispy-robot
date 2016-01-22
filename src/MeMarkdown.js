@@ -1,3 +1,4 @@
+/*Source: https://github.com/IonicaBizau/medium-editor-markdown*/
 var toMarkdown = require('to-markdown');
 
 var MeMarkdown = function(options, callback) {
