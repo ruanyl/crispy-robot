@@ -1,0 +1,40 @@
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+body {
+  color: rgba(0, 0, 0, .8);
+  font-family: "medium-content-serif-font","Lora",Georgia,Cambria,"Times New Roman",Times,serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 1.6em;
+  line-height: 1.58;
+  letter-spacing: 0.01rem;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga" on;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+p {
+  font-size: 2.1rem;
+  margin-top: 29px;
+  margin-top: 0;
+}
+h3 {
+  font-family: "medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 3.6rem;
+  line-height: 1.15;
+  letter-spacing: -0.02rem;
+}
+[contenteditable="true"]:focus {
+  outline: none;
+}
+
+#container {
+  width: 700px;
+  margin: 0 auto;
+}
