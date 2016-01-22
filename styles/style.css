@@ -19,8 +19,8 @@ body {
 }
 p {
   font-size: 2.1rem;
-  margin-top: 29px;
-  margin-top: 0;
+  margin-top: 0px;
+  margin-bottom: 29;
 }
 h3 {
   font-family: "medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
@@ -29,6 +29,43 @@ h3 {
   font-size: 3.6rem;
   line-height: 1.15;
   letter-spacing: -0.02rem;
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 29px;
+}
+h4 {
+  color: rgba(0,0,0,0.44);
+  font-family: "medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 2.8rem;
+  line-height: 1.22;
+  letter-spacing: -0.022rem;
+  margin: 0;
+  margin-top: 29px;
+}
+blockquote {
+  font-family: "medium-content-slab-serif-font",Georgia,Cambria,"Times New Roman",Times,serif;
+  font-weight: 400;
+  font-size: 2.8rem;
+  margin: 0;
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding-left: 50px;
+  line-height: 1.48;
+  letter-spacing: -0.014rem;
+  font-style: italic;
+  margin-left: -1.75px;
+  color: rgba(0, 0, 0, .6);
+}
+a {
+  color: #2ecc71;
+  font-weight: bold;
+  text-decoration: none;
+}
+a:hover {
+  color: #2980b9;
 }
 [contenteditable="true"]:focus {
   outline: none;
