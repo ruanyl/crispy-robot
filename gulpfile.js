@@ -14,7 +14,23 @@ var paths = {
   ]
 };
 
-gulp.task('js', function() {
+gulp.task('jsEdit', function() {
+  var b = browserify({
+    entries: './edit.js',
+    debug: true
+  });
+
+  return b.bundle()
+  .pipe(source('edit.js'))
+  .pipe(buffer())
+  .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(uglify())
+    .on('error', gutil.log)
+  .pipe(sourcemaps.write('./'))
+  .pipe(gulp.dest('./dist/js/'));
+});
+
+gulp.task('jsIndex', function() {
   var b = browserify({
     entries: './index.js',
     debug: true
@@ -38,4 +54,4 @@ gulp.task('cssVendor', function() {
 
 gulp.watch('./src/**/*.js', ['js']);
 
-gulp.task('build', ['js', 'cssVendor']);
+gulp.task('build', ['jsEdit', 'jsIndex', 'cssVendor']);
