@@ -16,7 +16,7 @@ var paths = {
 
 gulp.task('jsEdit', function() {
   var b = browserify({
-    entries: './edit.js',
+    entries: './src/edit.js',
     debug: true
   });
 
@@ -32,7 +32,7 @@ gulp.task('jsEdit', function() {
 
 gulp.task('jsIndex', function() {
   var b = browserify({
-    entries: './index.js',
+    entries: './src/index.js',
     debug: true
   });
 
@@ -52,6 +52,8 @@ gulp.task('cssVendor', function() {
   .pipe(gulp.dest('dist/css'));
 });
 
-gulp.watch('./src/**/*.js', ['js']);
+gulp.task('watch', function() {
+  gulp.watch('./src/**/*.js', ['jsEdit', 'jsIndex']);
+});
 
 gulp.task('build', ['jsEdit', 'jsIndex', 'cssVendor']);

@@ -1,6 +1,6 @@
 require('es6-promise').polyfill();
 var MediumEditor = require('medium-editor');
-var MeMarkdown = require('./src/MeMarkdown');
+var MeMarkdown = require('./MeMarkdown');
 var fetch = require('isomorphic-fetch');
 var markdown = require("markdown").markdown;
 
@@ -36,8 +36,7 @@ if ("onhashchange" in window) { // event supported?
   window.onhashchange = function () {
     hashChanged(window.location.hash);
   }
-}
-else { // event not supported:
+} else {
   var storedHash = window.location.hash;
   window.setInterval(function () {
     if (window.location.hash != storedHash) {
