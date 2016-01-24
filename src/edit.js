@@ -2,7 +2,9 @@ require('es6-promise').polyfill();
 var MediumEditor = require('medium-editor');
 var MeMarkdown = require('./MeMarkdown');
 var fetch = require('isomorphic-fetch');
-var markdown = require("markdown").markdown;
+var markdown = require("markdown-it")({
+  html: true
+});
 
 var mdContent = {
   md: ''
@@ -63,7 +65,7 @@ function toView(id) {
   .then(function(res) {
     return res.text();
   }).then(function(body) {
-    var html = markdown.toHTML(body);
+    var html = markdown.render(body);
     console.log(html);
     document.querySelector('#viewContainer').innerHTML = html;
   });
