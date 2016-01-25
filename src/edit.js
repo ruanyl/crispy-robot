@@ -1,6 +1,7 @@
 require('es6-promise').polyfill();
 var MediumEditor = require('medium-editor');
 var MeMarkdown = require('./MeMarkdown');
+var MeButton = require('./MediumButton');
 var fetch = require('isomorphic-fetch');
 var markdown = require("markdown-it")({
   html: true
@@ -11,17 +12,19 @@ var mdContent = {
 };
 var editable = document.querySelector('.editable');
 var editor = new MediumEditor(editable, {
+  buttonLabels: 'fontawesome',
   toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'orderedlist', 'unorderedlist', 'anchor', 'h3', 'h4', 'quote']
+    buttons: ['bold', 'italic', 'underline', 'orderedlist', 'unorderedlist', 'anchor', 'h3', 'h4', 'quote', 'pre', 'code']
   },
   extensions: {
+    'code': new MeButton({label: 'CODE', start: '<code>', end: '</code>'}),
     markdown: new MeMarkdown(function(md) {
       mdContent.md = md;
     })
   }
 });
 
-var saveBtn = document.querySelector('#saveBtn')
+var saveBtn = document.querySelector('#saveBtn');
 saveBtn.addEventListener('click', function(e) {
   e.preventDefault();
   fetch('/save', {
