@@ -3,11 +3,13 @@ var MediumEditor = require('medium-editor');
 var fetch = require('isomorphic-fetch');
 var rangy = require('rangy');
 var toMarkdown = require('to-markdown');
+var hljs = require('highlight.js');
 var markdown = require("markdown-it")({
   html: true
 });
 
 rangy.init();
+hljs.initHighlightingOnLoad();
 
 if ("onhashchange" in window) { // event supported?
   window.onhashchange = function () {
@@ -54,9 +56,15 @@ var saveBtn = document.querySelector('#saveBtn');
 saveBtn.addEventListener('click', function(e) {
   e.preventDefault();
 
-  var md = toMarkdown(editable.innerHTML).split('\n').map(function(c) {
-    return c.trim();
-  }).join('\n').trim()
+  var md = toMarkdown(editable.innerHTML, {
+    converters: [{
+        filter: 'pre',
+        replacement: function(content) {
+          return '\n```\n' + content + '\n```\n';
+        }
+      }]
+  });
+
   console.log(md);
 
   fetch('/save', {
@@ -89,6 +97,10 @@ function toView(id) {
     var html = markdown.render(body);
     console.log(html);
     document.querySelector('#viewContainer').innerHTML = html;
+
+    [].slice.call(document.querySelectorAll('pre code')).forEach(function(el) {
+      hljs.highlightBlock(el);
+    });
   });
 }
 

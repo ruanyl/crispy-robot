@@ -10,7 +10,8 @@ var concat = require('gulp-concat');
 var paths = {
   vendorStyles: [
     './node_modules/medium-editor/dist/css/medium-editor.min.css',
-    './node_modules/medium-editor/dist/css/themes/default.min.css'
+    './node_modules/medium-editor/dist/css/themes/default.min.css',
+    './node_modules/highlight.js/styles/solarized-dark.css'
   ],
   vendorScripts: [
     './node_modules/rangy/lib/rangy-core.js',
