@@ -1,41 +1,13 @@
 require('es6-promise').polyfill();
 var MediumEditor = require('medium-editor');
-var MeMarkdown = require('./MeMarkdown');
-var MeButton = require('./MediumButton');
 var fetch = require('isomorphic-fetch');
+var rangy = require('rangy');
+var toMarkdown = require('to-markdown');
 var markdown = require("markdown-it")({
   html: true
 });
 
-var mdContent = {
-  md: ''
-};
-var editable = document.querySelector('.editable');
-var editor = new MediumEditor(editable, {
-  buttonLabels: 'fontawesome',
-  toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'orderedlist', 'unorderedlist', 'anchor', 'h3', 'h4', 'quote', 'pre', 'code']
-  },
-  extensions: {
-    'code': new MeButton({label: 'CODE', start: '<code>', end: '</code>'}),
-    markdown: new MeMarkdown(function(md) {
-      mdContent.md = md;
-    })
-  }
-});
-
-var saveBtn = document.querySelector('#saveBtn');
-saveBtn.addEventListener('click', function(e) {
-  e.preventDefault();
-  fetch('/save', {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(mdContent)
-  });
-});
+rangy.init();
 
 if ("onhashchange" in window) { // event supported?
   window.onhashchange = function () {
@@ -50,6 +22,52 @@ if ("onhashchange" in window) { // event supported?
     }
   }, 100);
 }
+
+var editable = document.querySelector('.editable');
+var CodeButton = MediumEditor.extensions.button.extend({
+  name: 'code',
+  contentDefault: 'code',
+  action: 'code',
+  tagNames: ['code'],
+  init: function() {
+    MediumEditor.extensions.button.prototype.init.call(this);
+    this.classApplier = rangy.createCssClassApplier('code', {
+      elementTagName: 'code',
+      normalize: true
+    });
+  },
+  handleClick: function(e) {
+    this.classApplier.toggleSelection();
+  }
+});
+var editor = new MediumEditor(editable, {
+  buttonLabels: 'fontawesome',
+  toolbar: {
+    buttons: ['bold', 'italic', 'underline', 'orderedlist', 'unorderedlist', 'anchor', 'h3', 'h4', 'quote', 'pre', 'code']
+  },
+  extensions: {
+    'code': new CodeButton()
+  }
+});
+
+var saveBtn = document.querySelector('#saveBtn');
+saveBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+
+  var md = toMarkdown(editable.innerHTML).split('\n').map(function(c) {
+    return c.trim();
+  }).join('\n').trim()
+  console.log(md);
+
+  fetch('/save', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({md: md})
+  });
+});
 
 function hashChanged(hash) {
   hash = hash.split('/');

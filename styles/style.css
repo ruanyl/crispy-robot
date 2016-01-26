@@ -109,6 +109,17 @@ blockquote {
   margin-bottom: 30px;
   padding-left: 50px;
 }
+code {
+  font-size: 1.6rem;
+  letter-spacing: -0.01rem;
+  border-radius: 5px;
+  padding: 3px 8px 3px 6px;
+  line-height: 21px;
+  background-color: #f9f9f9;
+  color: #bf616a;
+  border: 1px solid #eee;
+  font-weight: normal;
+}
 a {
   color: #2ecc71;
   font-weight: bold;

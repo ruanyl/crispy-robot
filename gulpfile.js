@@ -11,8 +11,18 @@ var paths = {
   vendorStyles: [
     './node_modules/medium-editor/dist/css/medium-editor.min.css',
     './node_modules/medium-editor/dist/css/themes/default.min.css'
+  ],
+  vendorScripts: [
+    './node_modules/rangy/lib/rangy-core.js',
+    './node_modules/rangy/lib/rangy-classapplier.js'
   ]
 };
+
+gulp.task('jsVendor', function() {
+  return gulp.src(paths.vendorScripts)
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest('./dist/js/'));
+});
 
 gulp.task('jsEdit', function() {
   var b = browserify({
@@ -56,4 +66,4 @@ gulp.task('watch', function() {
   gulp.watch('./src/**/*.js', ['jsEdit', 'jsIndex']);
 });
 
-gulp.task('build', ['jsEdit', 'jsIndex', 'cssVendor']);
+gulp.task('build', ['jsEdit', 'jsIndex', 'cssVendor', 'jsVendor']);
