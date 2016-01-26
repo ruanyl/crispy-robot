@@ -109,7 +109,7 @@ blockquote {
   margin-bottom: 30px;
   padding-left: 50px;
 }
-code {
+p>code {
   font-size: 1.6rem;
   letter-spacing: -0.01rem;
   border-radius: 5px;
