@@ -10,9 +10,18 @@ app.use(express.static('styles'));
 app.use(express.static('posts'));
 app.use(bodyParser.json());
 
-app.post('/save', function (req, res) {
+app.post('/add', function (req, res) {
   var md = req.body.md;
-  fs.outputFile(path.join(__dirname, '/posts/text.md'), md, function(err) {
+  var findTitle = md.split('\n')[0].match(/#{1,6}(.+)/);
+
+  if(!findTitle) {
+    return res.json({
+      status: 'error',
+      message: 'Title not found'
+    });
+  }
+  var title = findTitle[1].trim().split(' ').join('-');
+  fs.outputFile(path.join(__dirname, '/posts/' + title + '.md'), md, function(err) {
     console.log(err);
   })
   console.log(req.body);
