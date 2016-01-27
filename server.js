@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var fs = require('fs-extra');
 var path = require('path');
+var shortid = require('shortid');
 
 app.use(express.static('public'));
 app.use(express.static('dist'));
@@ -21,13 +22,29 @@ app.post('/add', function (req, res) {
     });
   }
   var title = findTitle[1].trim().split(' ').join('-');
+
+  var dbPath = path.join(__dirname, '/posts/db.json');
+  fs.ensureFileSync(dbPath);
+
+  var db = fs.readJsonSync(dbPath, {throws: false});
+  var id = shortid.generate();
+  if(!db) {
+    db = {};
+  }
+  db[id] = title;
+
+  console.log(db);
+  fs.outputJsonSync(dbPath, db);
+
   fs.outputFile(path.join(__dirname, '/posts/' + title + '.md'), md, function(err) {
-    console.log(err);
-  })
-  console.log(req.body);
-  res.json({status: 'ok'});
+    if(err) {
+      console.log(err);
+      return res.json({status: 'error', message: 'save file failed'});
+    }
+    return res.json({status: 'ok', id: id});
+  });
 });
 
-app.listen(3000, function () {
+app.listen(3000, function() {
   console.log('Example app listening on port 3000!');
 });
