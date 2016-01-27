@@ -10,6 +10,7 @@ var markdown = require("markdown-it")({
 
 rangy.init();
 hljs.initHighlightingOnLoad();
+hashChanged(window.location.hash); // initial the view
 
 if ("onhashchange" in window) { // event supported?
   window.onhashchange = function () {
@@ -25,7 +26,8 @@ if ("onhashchange" in window) { // event supported?
   }, 100);
 }
 
-var editable = document.querySelector('.editable');
+var addedContent = document.querySelector('#addContainer .editable');
+var updatedContent = document.querySelector('#editContainer .editable');
 var CodeButton = MediumEditor.extensions.button.extend({
   name: 'code',
   contentDefault: 'code',
@@ -42,7 +44,7 @@ var CodeButton = MediumEditor.extensions.button.extend({
     this.classApplier.toggleSelection();
   }
 });
-var editor = new MediumEditor(editable, {
+var editor = new MediumEditor('.editable', {
   buttonLabels: 'fontawesome',
   toolbar: {
     buttons: ['bold', 'italic', 'underline', 'orderedlist', 'unorderedlist', 'anchor', 'h3', 'h4', 'quote', 'pre', 'code']
@@ -52,22 +54,25 @@ var editor = new MediumEditor(editable, {
   }
 });
 
-var saveBtn = document.querySelector('#saveBtn');
-saveBtn.addEventListener('click', function(e) {
+var addBtn = document.querySelector('#addBtn');
+addBtn.addEventListener('click', function(e) {
   e.preventDefault();
 
-  var md = toMarkdown(editable.innerHTML, {
+  var md = toMarkdown(addedContent.innerHTML, {
     converters: [{
         filter: 'pre',
         replacement: function(content) {
           return '\n```\n' + content + '\n```\n';
         }
-      }]
+    }, {
+      filter: 'span',
+      replacement: function(content) {
+        return content;
+      }
+    }]
   });
 
-  console.log(md);
-
-  fetch('/save', {
+  fetch('/add', {
     method: 'post',
     headers: {
       'Accept': 'application/json',
@@ -78,24 +83,34 @@ saveBtn.addEventListener('click', function(e) {
 });
 
 function hashChanged(hash) {
+  console.log(hash);
+  document.querySelector('#addContainer').style.display = 'none';
+  document.querySelector('#viewContainer').style.display = 'none';
+  document.querySelector('#editContainer').style.display = 'none';
+
   hash = hash.split('/');
-  if(hash[1] === 'view') {
-    toView(hash[2]);
-  } else if(hash[1] === 'edit') {
-    toEdit(hash[2]);
+  switch(hash[1]) {
+    case 'view':
+      document.querySelector('#viewContainer').style.display = 'block';
+      toView(hash[2]);
+      break;
+    case 'edit':
+      document.querySelector('#editContainer').style.display = 'block';
+      toEdit(hash[2]);
+      break;
+    case 'add':
+      document.querySelector('#addContainer').style.display = 'block';
+      toAdd();
+      break;
   }
 }
 
 function toView(id) {
-  document.querySelector('#viewContainer').style.display = 'block';
-  document.querySelector('#editContainer').style.display = 'none';
-
   fetch('/text.md')
   .then(function(res) {
     return res.text();
   }).then(function(body) {
     var html = markdown.render(body);
-    console.log(html);
     document.querySelector('#viewContainer').innerHTML = html;
 
     [].slice.call(document.querySelectorAll('pre code')).forEach(function(el) {
@@ -105,6 +120,7 @@ function toView(id) {
 }
 
 function toEdit(id) {
-  document.querySelector('#viewContainer').style.display = 'none';
-  document.querySelector('#editContainer').style.display = 'block';
+}
+
+function toAdd() {
 }
