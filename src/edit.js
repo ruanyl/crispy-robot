@@ -106,7 +106,7 @@ function hashChanged(hash) {
 }
 
 function toView(id) {
-  fetch('/text.md')
+  fetch('/view/' + id)
   .then(function(res) {
     return res.text();
   }).then(function(body) {

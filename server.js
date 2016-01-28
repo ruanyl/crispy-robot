@@ -45,6 +45,19 @@ app.post('/add', function (req, res) {
   });
 });
 
+app.get('/view/:id', function(req, res) {
+  var postsPath = path.join(__dirname, '/posts');
+  var db = fs.readJsonSync(path.join(postsPath, '/db.json'), {throws: false});
+  var id = req.params.id;
+  if(id && db[id]) {
+    fs.readFile(path.join(postsPath, db[id] + '.md'), function(err, md) {
+      res.send(md);
+    });
+  } else {
+    res.send('### Oops, Not Found');
+  }
+});
+
 app.listen(3000, function() {
   console.log('Example app listening on port 3000!');
 });
