@@ -109,6 +109,22 @@ blockquote {
   margin-bottom: 30px;
   padding-left: 50px;
 }
+#editContainer pre {
+  position: relative;
+  background-color: rgba(0, 0, 0, .05);
+  padding: 13px 23px;
+}
+#editContainer pre::before {
+  position: absolute;
+  content: "code";
+  float: right;
+  margin-top: -14px;
+  font-size: 12px;
+  right: 0;
+  background-color: #299F96;
+  padding: 0px 5px 0px 5px;
+  color: #fff;
+}
 p>code {
   font-size: 1.6rem;
   letter-spacing: -0.01rem;
