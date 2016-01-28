@@ -109,12 +109,14 @@ blockquote {
   margin-bottom: 30px;
   padding-left: 50px;
 }
-#editContainer pre {
+#editContainer pre,
+#addContainer pre {
   position: relative;
   background-color: rgba(0, 0, 0, .05);
   padding: 13px 23px;
 }
-#editContainer pre::before {
+#editContainer pre::before,
+#addContainer pre::before {
   position: absolute;
   content: "code";
   float: right;
@@ -151,4 +153,10 @@ a:hover {
 #container {
   width: 700px;
   margin: 0 auto;
+}
+
+#addContainer,
+#editContainer,
+#viewContainer {
+  display: none;
 }

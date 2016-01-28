@@ -82,6 +82,36 @@ addBtn.addEventListener('click', function(e) {
   });
 });
 
+var updateBtn = document.querySelector('#updateBtn');
+updateBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  var id = window.location.hash.split('/')[2];
+  var md = toMarkdown(updatedContent.innerHTML, {
+    converters: [{
+        filter: 'pre',
+        replacement: function(content) {
+          return '\n```\n' + content + '\n```\n';
+        }
+    }, {
+      filter: 'span',
+      replacement: function(content) {
+        return content;
+      }
+    }]
+  });
+
+  if(id) {
+    fetch('/update/' + id, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({md: md})
+    });
+  }
+});
+
 function hashChanged(hash) {
   console.log(hash);
   document.querySelector('#addContainer').style.display = 'none';
@@ -106,7 +136,7 @@ function hashChanged(hash) {
 }
 
 function toView(id) {
-  fetch('/view/' + id)
+  fetch('/post/' + id)
   .then(function(res) {
     return res.text();
   }).then(function(body) {
@@ -120,6 +150,13 @@ function toView(id) {
 }
 
 function toEdit(id) {
+  fetch('/post/' + id)
+  .then(function(res) {
+    return res.text();
+  }).then(function(body) {
+    var html = markdown.render(body);
+    document.querySelector('#editContainer .editable').innerHTML = html;
+  });
 }
 
 function toAdd() {

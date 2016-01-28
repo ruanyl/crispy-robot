@@ -4,6 +4,7 @@ var app = express();
 var fs = require('fs-extra');
 var path = require('path');
 var shortid = require('shortid');
+var post = require('./src/post');
 
 app.use(express.static('public'));
 app.use(express.static('dist'));
@@ -13,15 +14,14 @@ app.use(bodyParser.json());
 
 app.post('/add', function (req, res) {
   var md = req.body.md;
-  var findTitle = md.split('\n')[0].match(/#{1,6}(.+)/);
+  var title = post.findTitle(md);
 
-  if(!findTitle) {
+  if(title === null) {
     return res.json({
       status: 'error',
       message: 'Title not found'
     });
   }
-  var title = findTitle[1].trim().split(' ').join('-');
 
   var dbPath = path.join(__dirname, '/posts/db.json');
   fs.ensureFileSync(dbPath);
@@ -45,7 +45,7 @@ app.post('/add', function (req, res) {
   });
 });
 
-app.get('/view/:id', function(req, res) {
+app.get('/post/:id', function(req, res) {
   var postsPath = path.join(__dirname, '/posts');
   var db = fs.readJsonSync(path.join(postsPath, '/db.json'), {throws: false});
   var id = req.params.id;
@@ -56,6 +56,48 @@ app.get('/view/:id', function(req, res) {
   } else {
     res.send('### Oops, Not Found');
   }
+});
+
+app.post('/update/:id', function(req, res) {
+  var md = req.body.md;
+  var title = post.findTitle(md);
+
+  if(title === null) {
+    return res.json({
+      status: 'error',
+      message: 'Title not found'
+    });
+  }
+
+  var postsPath = path.join(__dirname, '/posts');
+  var db = fs.readJsonSync(path.join(postsPath, '/db.json'), {throws: false});
+  var id = req.params.id;
+  if(!id || !db[id]) {
+    return res.json({
+      status: 'error',
+      message: 'Id not found'
+    });
+  }
+
+  var oldTitle = db[id];
+  if(title !== oldTitle) { // if user update tile
+    db[id] = title;
+    // update db.json and remove the old .md file
+    fs.outputJsonSync(path.join(postsPath, '/db.json'), db);
+    fs.removeSync(path.join(postsPath, oldTitle + '.md'));
+  }
+  fs.outputFile(path.join(postsPath, db[id] + '.md'), md, function(err) {
+    if(err) {
+      res.json({
+        status: 'error',
+        message: 'Not updated'
+      });
+    } else {
+      res.json({
+        status: 'ok'
+      });
+    }
+  });
 });
 
 app.listen(3000, function() {
