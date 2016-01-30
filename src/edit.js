@@ -26,6 +26,15 @@ if ("onhashchange" in window) { // event supported?
   }, 100);
 }
 
+setInterval(function() {
+  var view = window.location.hash.split('/')[1];
+  if(view === 'edit') {
+    update();
+  } else if(view === 'add') {
+    add();
+  }
+}, 5000);
+
 var addedContent = document.querySelector('#addContainer .editable');
 var updatedContent = document.querySelector('#editContainer .editable');
 var CodeButton = MediumEditor.extensions.button.extend({
@@ -54,51 +63,36 @@ var editor = new MediumEditor('.editable', {
   }
 });
 
-var addBtn = document.querySelector('#addBtn');
-addBtn.addEventListener('click', function(e) {
-  e.preventDefault();
-
-  var md = toMarkdown(addedContent.innerHTML, {
+function customToMarkdown(html) {
+  var md = toMarkdown(html, {
     converters: [{
-        filter: 'pre',
-        replacement: function(content) {
-          return '\n```\n' + content + '\n```\n';
-        }
+      filter: function(node) {
+        return node.nodeName === 'PRE' && node.firstChild.nodeName !== 'CODE';
+      },
+      replacement: function(content) {
+        return '\n```\n' + content.trim() + '\n```\n';
+      }
     }, {
       filter: 'span',
       replacement: function(content) {
         return content;
       }
+    }, {
+      filter: function(node) {
+        return node.nodeName === 'PRE' && node.firstChild.nodeName === 'CODE';
+      },
+      replacement: function(content, node) {
+        return '\n```\n' + node.firstChild.textContent.trim() + '\n```\n';
+      }
     }]
   });
+  return md;
+}
 
-  fetch('/add', {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({md: md})
-  });
-});
-
-var updateBtn = document.querySelector('#updateBtn');
-updateBtn.addEventListener('click', function(e) {
-  e.preventDefault();
+function update() {
   var id = window.location.hash.split('/')[2];
-  var md = toMarkdown(updatedContent.innerHTML, {
-    converters: [{
-        filter: 'pre',
-        replacement: function(content) {
-          return '\n```\n' + content + '\n```\n';
-        }
-    }, {
-      filter: 'span',
-      replacement: function(content) {
-        return content;
-      }
-    }]
-  });
+  var md = customToMarkdown(updatedContent.innerHTML);
+  console.log(md);
 
   if(id) {
     fetch('/update/' + id, {
@@ -110,6 +104,31 @@ updateBtn.addEventListener('click', function(e) {
       body: JSON.stringify({md: md})
     });
   }
+}
+
+function add() {
+  var md = customToMarkdown(addedContent.innerHTML);
+
+  fetch('/add', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({md: md})
+  });
+}
+
+var updateBtn = document.querySelector('#updateBtn');
+updateBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  update();
+});
+
+var addBtn = document.querySelector('#addBtn');
+addBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  add();
 });
 
 function hashChanged(hash) {
@@ -117,6 +136,7 @@ function hashChanged(hash) {
   document.querySelector('#addContainer').style.display = 'none';
   document.querySelector('#viewContainer').style.display = 'none';
   document.querySelector('#editContainer').style.display = 'none';
+  document.querySelector('#listContainer').style.display = 'none';
 
   hash = hash.split('/');
   switch(hash[1]) {
@@ -131,6 +151,14 @@ function hashChanged(hash) {
     case 'add':
       document.querySelector('#addContainer').style.display = 'block';
       toAdd();
+      break;
+    case 'list':
+      document.querySelector('#listContainer').style.display = 'block';
+      toList();
+      break;
+    default:
+      document.querySelector('#listContainer').style.display = 'block';
+      toList();
       break;
   }
 }
@@ -156,6 +184,20 @@ function toEdit(id) {
   }).then(function(body) {
     var html = markdown.render(body);
     document.querySelector('#editContainer .editable').innerHTML = html;
+  });
+}
+
+function toList() {
+  fetch('/list/')
+  .then(function(res) {
+    return res.json();
+  }).then(function(body) {
+    var list = '';
+    for(var id in body) {
+      var title = body[id].split('-').join(' ');
+      list = list + '<a href="#/edit/' + id + '"><h3>' + title + '</h3></a>';
+    }
+    document.querySelector('#listContainer').innerHTML = list;
   });
 }
 

@@ -155,6 +155,7 @@ a:hover {
   margin: 0 auto;
 }
 
+#listContainer,
 #addContainer,
 #editContainer,
 #viewContainer {

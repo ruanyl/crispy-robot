@@ -100,6 +100,19 @@ app.post('/update/:id', function(req, res) {
   });
 });
 
+app.get('/list', function(req, res) {
+  var postsPath = path.join(__dirname, '/posts');
+  fs.readJson(path.join(postsPath, '/db.json'), function(err, json) {
+    if(err) {
+      return res.json({
+        status: 'error',
+        message: 'db file not found'
+      });
+    }
+    res.json(json);
+  });
+});
+
 app.listen(3000, function() {
   console.log('Example app listening on port 3000!');
 });
