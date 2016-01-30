@@ -23,7 +23,7 @@ app.post('/add', function (req, res) {
     });
   }
 
-  var dbPath = path.join(__dirname, '/posts/db.json');
+  var dbPath = path.join(__dirname, '/db.json');
   fs.ensureFileSync(dbPath);
 
   var db = fs.readJsonSync(dbPath, {throws: false});
@@ -47,7 +47,7 @@ app.post('/add', function (req, res) {
 
 app.get('/post/:id', function(req, res) {
   var postsPath = path.join(__dirname, '/posts');
-  var db = fs.readJsonSync(path.join(postsPath, '/db.json'), {throws: false});
+  var db = fs.readJsonSync(path.join(__dirname, '/db.json'), {throws: false});
   var id = req.params.id;
   if(id && db[id]) {
     fs.readFile(path.join(postsPath, db[id] + '.md'), function(err, md) {
@@ -70,7 +70,7 @@ app.post('/update/:id', function(req, res) {
   }
 
   var postsPath = path.join(__dirname, '/posts');
-  var db = fs.readJsonSync(path.join(postsPath, '/db.json'), {throws: false});
+  var db = fs.readJsonSync(path.join(__dirname, '/db.json'), {throws: false});
   var id = req.params.id;
   if(!id || !db[id]) {
     return res.json({
@@ -83,7 +83,7 @@ app.post('/update/:id', function(req, res) {
   if(title !== oldTitle) { // if user update tile
     db[id] = title;
     // update db.json and remove the old .md file
-    fs.outputJsonSync(path.join(postsPath, '/db.json'), db);
+    fs.outputJsonSync(path.join(__dirname, '/db.json'), db);
     fs.removeSync(path.join(postsPath, oldTitle + '.md'));
   }
   fs.outputFile(path.join(postsPath, db[id] + '.md'), md, function(err) {
@@ -102,7 +102,7 @@ app.post('/update/:id', function(req, res) {
 
 app.get('/list', function(req, res) {
   var postsPath = path.join(__dirname, '/posts');
-  fs.readJson(path.join(postsPath, '/db.json'), function(err, json) {
+  fs.readJson(path.join(__dirname, '/db.json'), function(err, json) {
     if(err) {
       return res.json({
         status: 'error',
