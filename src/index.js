@@ -52,7 +52,10 @@ var posts = null;
 
 function toView(id) {
   if(posts && posts[id]) {
-    fetchContent('posts/' + posts[id] + '.md');
+    fetchContent('posts/' + posts[id] + '.md')
+    .then(function(body) {
+      renderPost(body);
+    });
   } else {
     fetchDb()
     .then(function(db) {
@@ -61,14 +64,18 @@ function toView(id) {
       return fetchContent('posts/' + filename);
     })
     .then(function(body) {
-      var html = markdown.render(body);
-      document.querySelector('#viewContainer').innerHTML = html;
-
-      [].slice.call(document.querySelectorAll('pre code')).forEach(function(el) {
-        hljs.highlightBlock(el);
-      });
+      renderPost(body);
     });
   }
+}
+
+function renderPost(md) {
+  var html = markdown.render(md);
+  document.querySelector('#viewContainer').innerHTML = html;
+
+  [].slice.call(document.querySelectorAll('pre code')).forEach(function(el) {
+    hljs.highlightBlock(el);
+  });
 }
 
 function fetchContent(path) {

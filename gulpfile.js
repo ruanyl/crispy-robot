@@ -63,8 +63,15 @@ gulp.task('cssVendor', function() {
   .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('watch', function() {
-  gulp.watch('./src/**/*.js', ['jsEdit', 'jsIndex']);
+gulp.task('cssIndex', function() {
+  return gulp.src('./styles/**/*.css')
+    .pipe(concat('style.css'))
+    .pipe(gulp.dest('./dist/css/'));
 });
 
-gulp.task('build', ['jsEdit', 'jsIndex', 'cssVendor', 'jsVendor']);
+gulp.task('watch', function() {
+  gulp.watch('./src/**/*.js', ['jsEdit', 'jsIndex']);
+  gulp.watch('./styles/**/*.css', ['cssIndex']);
+});
+
+gulp.task('build', ['jsEdit', 'jsIndex', 'cssVendor', 'jsVendor', 'cssIndex']);

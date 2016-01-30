@@ -4,7 +4,9 @@
   "description": "static site generator",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/gulp build",
+    "deploy": "npm run build && node ./deploy.js"
   },
   "repository": {
     "type": "git",
