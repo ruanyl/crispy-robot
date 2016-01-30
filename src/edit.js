@@ -56,7 +56,7 @@ var CodeButton = MediumEditor.extensions.button.extend({
 var editor = new MediumEditor('.editable', {
   buttonLabels: 'fontawesome',
   toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'orderedlist', 'unorderedlist', 'anchor', 'h3', 'h4', 'quote', 'pre', 'code']
+    buttons: ['bold', 'italic', 'underline', 'orderedlist', 'unorderedlist', 'anchor', 'h3', 'h4', 'quote', 'pre', 'code', 'image']
   },
   extensions: {
     'code': new CodeButton()
