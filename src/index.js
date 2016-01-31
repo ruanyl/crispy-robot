@@ -96,15 +96,23 @@ function fetchDb() {
   });
 }
 
+function renderList(posts) {
+  var list = '';
+  for(var id in posts) {
+    var title = posts[id].split('-').join(' ');
+    list = list + '<a href="#/view/' + id + '"><h3>' + title + '</h3></a>';
+  }
+  document.querySelector('#listContainer').innerHTML = list;
+}
+
 function toList() {
-  fetchDb()
-  .then(function(db) {
-    posts = db;
-    var list = '';
-    for(var id in posts) {
-      var title = posts[id].split('-').join(' ');
-      list = list + '<a href="#/view/' + id + '"><h3>' + title + '</h3></a>';
-    }
-    document.querySelector('#listContainer').innerHTML = list;
-  });
+  if(!posts) {
+    fetchDb()
+    .then(function(db) {
+      posts = db;
+      renderList(db);
+    });
+  } else {
+    renderList(posts);
+  }
 }
