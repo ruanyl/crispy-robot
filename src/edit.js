@@ -2,6 +2,7 @@ require('es6-promise').polyfill();
 var MediumEditor = require('medium-editor');
 var fetch = require('isomorphic-fetch');
 var rangy = require('rangy');
+var utils = require('./utils');
 var toMarkdown = require('to-markdown');
 var hljs = require('highlight.js');
 var markdown = require("markdown-it")({
@@ -193,10 +194,11 @@ function toList() {
     return res.json();
   }).then(function(body) {
     var list = '';
-    for(var id in body) {
-      var title = body[id].split('-').join(' ');
-      list = list + '<a href="#/edit/' + id + '"><h3>' + title + '</h3></a>';
-    }
+    body = utils.sortPosts(body);
+    body.forEach(function(post) {
+      var title = post.title.split('-').join(' ');
+      list = list + '<a href="#/edit/' + post.id + '"><h3>' + title + '</h3></a>';
+    })
     document.querySelector('#listContainer').innerHTML = list;
   });
 }
