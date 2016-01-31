@@ -98,7 +98,7 @@ function fetchDb() {
 }
 
 function renderList(posts) {
-  var list = utils.renderList(posts);
+  var list = utils.renderList(posts, 'view');
   document.querySelector('#listContainer').innerHTML = list;
 }
 

@@ -193,7 +193,7 @@ function toList() {
   .then(function(res) {
     return res.json();
   }).then(function(body) {
-    var list = utils.renderList(body);
+    var list = utils.renderList(body, 'edit');
     document.querySelector('#listContainer').innerHTML = list;
   });
 }

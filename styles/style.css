@@ -16,6 +16,7 @@ body {
   -moz-font-feature-settings: "liga" on;
   word-break: break-word;
   word-wrap: break-word;
+  background: #fafafa;
 }
 p {
   font-size: 2.1rem;
@@ -162,4 +163,26 @@ a:hover {
 #editContainer,
 #viewContainer {
   display: none;
+}
+.title-card {
+  border-radius: 3px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.title-card a {
+  display: block;
+  font-size: 3.1rem;
+  line-height: 1.12;
+  letter-spacing: -0.022rem;
+  font-family: "medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+  font-style: normal;
+  color: #00ab6b;
+  text-transform: capitalize;
+  border-top: 1px solid #ccc;
+  padding-top: 5px;
+}
+.title-card span {
+  color: rgba(0,0,0,0.44);
 }

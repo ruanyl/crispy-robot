@@ -34,22 +34,22 @@ function sortPosts(posts) {
     var aDate = new Date(a.date);
     var bDate = new Date(b.date);
     if(aDate.getTime() > bDate.getTime()) {
-      return 1;
-    } else if(aDate.getTime() < bDate.getTime()) {
       return -1;
+    } else if(aDate.getTime() < bDate.getTime()) {
+      return 1;
     } else {
       return 0;
     }
   });
 }
 
-function renderList(posts) {
+function renderList(posts, page) {
   var list = '';
   posts = sortPosts(posts);
   console.log(posts);
   posts.forEach(function(post) {
     var title = post.title.split('-').join(' ');
-    list = list + '<a href="#/edit/' + post.id + '"><h3>' + title + '</h3></a>';
+    list = list + '<div class="title-card"><span>' + post.date + '</span><a href="#/' + page + '/' + post.id + '">' + title + '</a></div>';
   });
 
   return list;
