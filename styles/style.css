@@ -80,6 +80,7 @@ h3 {
   margin: 0;
   margin-top: 20px;
   margin-bottom: 29px;
+  text-transform: capitalize;
 }
 h4 {
   color: rgba(0,0,0,0.44);
@@ -91,6 +92,7 @@ h4 {
   letter-spacing: -0.022rem;
   margin: 0;
   margin-top: 29px;
+  text-transform: capitalize;
 }
 blockquote, blockquote p {
   font-family: "medium-content-slab-serif-font",Georgia,Cambria,"Times New Roman",Times,serif;
