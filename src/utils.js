@@ -43,7 +43,20 @@ function sortPosts(posts) {
   });
 }
 
+function renderList(posts) {
+  var list = '';
+  posts = sortPosts(posts);
+  console.log(posts);
+  posts.forEach(function(post) {
+    var title = post.title.split('-').join(' ');
+    list = list + '<a href="#/edit/' + post.id + '"><h3>' + title + '</h3></a>';
+  });
+
+  return list;
+}
+
 module.exports = {
   findTitle: findTitle,
-  sortPosts: sortPosts
+  sortPosts: sortPosts,
+  renderList: renderList
 };

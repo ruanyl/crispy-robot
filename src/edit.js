@@ -193,12 +193,7 @@ function toList() {
   .then(function(res) {
     return res.json();
   }).then(function(body) {
-    var list = '';
-    body = utils.sortPosts(body);
-    body.forEach(function(post) {
-      var title = post.title.split('-').join(' ');
-      list = list + '<a href="#/edit/' + post.id + '"><h3>' + title + '</h3></a>';
-    })
+    var list = utils.renderList(body);
     document.querySelector('#listContainer').innerHTML = list;
   });
 }

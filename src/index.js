@@ -2,6 +2,7 @@ require('es6-promise').polyfill();
 var conf = require('../site.conf.json');
 var fetch = require('isomorphic-fetch');
 var rangy = require('rangy');
+var utils = require('./utils');
 var hljs = require('highlight.js');
 var markdown = require('markdown-it')({
   html: true
@@ -97,11 +98,7 @@ function fetchDb() {
 }
 
 function renderList(posts) {
-  var list = '';
-  for(var id in posts) {
-    var title = posts[id].split('-').join(' ');
-    list = list + '<a href="#/view/' + id + '"><h3>' + title + '</h3></a>';
-  }
+  var list = utils.renderList(posts);
   document.querySelector('#listContainer').innerHTML = list;
 }
 
