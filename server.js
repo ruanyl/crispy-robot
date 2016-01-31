@@ -4,7 +4,7 @@ var app = express();
 var fs = require('fs-extra');
 var path = require('path');
 var shortid = require('shortid');
-var post = require('./src/post');
+var utils = require('./src/utils');
 
 app.use(express.static('public'));
 app.use(express.static('dist'));
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 app.post('/add', function (req, res) {
   var md = req.body.md;
-  var title = post.findTitle(md);
+  var title = utils.findTitle(md);
 
   if(title === null) {
     return res.json({
@@ -60,7 +60,7 @@ app.get('/post/:id', function(req, res) {
 
 app.post('/update/:id', function(req, res) {
   var md = req.body.md;
-  var title = post.findTitle(md);
+  var title = utils.findTitle(md);
 
   if(title === null) {
     return res.json({
