@@ -147,6 +147,9 @@ p>code {
   border: 1px solid #eee;
   font-weight: normal;
 }
+img {
+  max-width: 100%;
+}
 a {
   color: #2ecc71;
   font-weight: bold;

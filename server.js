@@ -16,7 +16,7 @@ app.post('/add', function (req, res) {
   var md = req.body.md;
   var title = utils.findTitle(md);
 
-  if(title) {
+  if(!title) {
     return res.json({
       status: 'error',
       message: 'Title not found'
