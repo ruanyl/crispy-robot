@@ -30,9 +30,9 @@ if ("onhashchange" in window) { // event supported?
 setInterval(function() {
   var view = window.location.hash.split('/')[1];
   if(view === 'edit') {
-    update();
+    //update();
   } else if(view === 'add') {
-    add();
+    //add();
   }
 }, 5000);
 

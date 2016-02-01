@@ -28,7 +28,6 @@ if('onhashchange' in window) { // event supported?
 var postsUrl = 'https://api.github.com/repos' + conf.username + '/' + conf.repo + '/contents/posts?ref=' + conf.branch;
 
 function hashChanged(hash) {
-  console.log(hash);
   document.querySelector('#viewContainer').style.display = 'none';
   document.querySelector('#listContainer').style.display = 'none';
 
@@ -53,7 +52,7 @@ var posts = null;
 
 function toView(id) {
   if(posts && posts[id]) {
-    fetchContent('posts/' + posts[id] + '.md')
+    fetchContent('posts/' + posts[id].name + posts[id].ext)
     .then(function(body) {
       renderPost(body);
     });
@@ -61,7 +60,7 @@ function toView(id) {
     fetchDb()
     .then(function(db) {
       posts = db;
-      var filename = posts[id] + '.md';
+      var filename = posts[id].name + posts[id].ext;
       return fetchContent('posts/' + filename);
     })
     .then(function(body) {

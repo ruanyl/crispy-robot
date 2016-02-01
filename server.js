@@ -31,7 +31,11 @@ app.post('/add', function (req, res) {
   if(!db) {
     db = {};
   }
-  db[id] = title;
+  db[id] = {
+    title: title,
+    name: title,
+    ext: 'md'
+  };
 
   console.log(db);
   fs.outputJsonSync(dbPath, db);
@@ -50,7 +54,7 @@ app.get('/post/:id', function(req, res) {
   var db = fs.readJsonSync(path.join(__dirname, '/db.json'), {throws: false});
   var id = req.params.id;
   if(id && db[id]) {
-    fs.readFile(path.join(postsPath, db[id] + '.md'), function(err, md) {
+    fs.readFile(path.join(postsPath, db[id].name + db[id].ext), function(err, md) {
       res.send(md);
     });
   } else {
@@ -61,6 +65,7 @@ app.get('/post/:id', function(req, res) {
 app.post('/update/:id', function(req, res) {
   var md = req.body.md;
   var title = utils.findTitle(md);
+  var name = title.split(' ').join('-');
 
   if(title === null) {
     return res.json({
@@ -79,19 +84,25 @@ app.post('/update/:id', function(req, res) {
     });
   }
 
-  var oldTitle = db[id];
-  var date = utils.findDate(oldTitle);
+  var oldName = db[id].name;
+  var oldTitle = db[id].title;
+  var date = utils.findDate(oldName);
+
   if(date) { // append date to file name
-    title = date + '-' + title;
+    name = date + '-' + name;
   }
 
   if(title !== oldTitle) { // if user update tile
-    db[id] = title;
+    db[id] = {
+      title: title,
+      name: name,
+      ext: db[id].ext
+    };
     // update db.json and remove the old .md file
     fs.outputJsonSync(path.join(__dirname, '/db.json'), db);
-    fs.removeSync(path.join(postsPath, oldTitle + '.md'));
+    fs.removeSync(path.join(postsPath, oldName + db[id].ext));
   }
-  fs.outputFile(path.join(postsPath, db[id] + '.md'), md, function(err) {
+  fs.outputFile(path.join(postsPath, name + db[id].ext), md, function(err) {
     if(err) {
       res.json({
         status: 'error',

@@ -13,14 +13,9 @@ function findTitle(md) {
 
 function sortPosts(posts) {
   return Object.keys(posts).map(function(key) {
-    var title = posts[key];
-    var date = '';
-    var match = title.match(/^(\d{4}-\d{1,2}-\d{1,2}).*/);
-
-    if(match) {
-      date = match[1];
-      title = title.replace(/^(\d{4}-\d{1,2}-\d{1,2}-*)/, '');
-    }
+    var title = posts[key].title;
+    var name = posts[key].name;
+    var date = findDate(name);
 
     return {
       id: key,
@@ -49,7 +44,6 @@ function sortPosts(posts) {
 function renderList(posts, page) {
   var list = '';
   posts = sortPosts(posts);
-  console.log(posts);
   posts.forEach(function(post) {
     var title = post.title.split('-').join(' ');
     list = list + '<div class="title-card"><span>' + post.date + '</span><a href="#/' + page + '/' + post.id + '">' + title + '</a></div>';
