@@ -16,7 +16,7 @@ app.post('/add', function (req, res) {
   var md = req.body.md;
   var title = utils.findTitle(md);
 
-  if(title === null) {
+  if(title) {
     return res.json({
       status: 'error',
       message: 'Title not found'
@@ -80,6 +80,11 @@ app.post('/update/:id', function(req, res) {
   }
 
   var oldTitle = db[id];
+  var date = utils.findDate(oldTitle);
+  if(date) { // append date to file name
+    title = date + '-' + title;
+  }
+
   if(title !== oldTitle) { // if user update tile
     db[id] = title;
     // update db.json and remove the old .md file

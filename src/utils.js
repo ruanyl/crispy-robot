@@ -1,10 +1,13 @@
 function findTitle(md) {
-  var matchedTitle = md.split('\n')[0].match(/#{1,6}(.+)/);
+  var title = '';
+  var mdArr = md.split('\n');
+  var matchedTitle = mdArr[0].match(/#{1,6}(.+)/)
 
-  if(!matchedTitle) {
-    return null;
+  if(matchedTitle) {
+    title = matchedTitle[1].trim().split(' ').join('-');
+  } else if(mdArr[1].match(/^=+$/)) {
+    title = mdArr[0];
   }
-  var title = matchedTitle[1].trim().split(' ').join('-');
   return title;
 }
 
@@ -55,8 +58,18 @@ function renderList(posts, page) {
   return list;
 }
 
+function findDate(str) {
+  var date = '';
+  var match = str.match(/^(\d{4}-\d{1,2}-\d{1,2}).*/);
+  if(match) { // append date to file name
+    date = match[1];
+  }
+  return date;
+}
+
 module.exports = {
   findTitle: findTitle,
   sortPosts: sortPosts,
-  renderList: renderList
+  renderList: renderList,
+  findDate: findDate
 };
