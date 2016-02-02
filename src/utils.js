@@ -1,3 +1,7 @@
+var markdown = require('markdown-it')({
+  html: true
+});
+
 function findTitle(md) {
   var title = '';
   var mdArr = md.split('\n');
@@ -16,11 +20,13 @@ function sortPosts(posts) {
     var title = posts[key].title;
     var name = posts[key].name;
     var date = findDate(name);
+    var excerpt = posts[key].excerpt;
 
     return {
       id: key,
       title: title,
-      date: date
+      date: date,
+      excerpt: excerpt
     };
   }).sort(function(a, b) {
     if(!a.date) {
@@ -46,7 +52,11 @@ function renderList(posts, page) {
   posts = sortPosts(posts);
   posts.forEach(function(post) {
     var title = post.title.split('-').join(' ');
-    list = list + '<div class="title-card"><span>' + post.date + '</span><a href="#/' + page + '/' + post.id + '">' + title + '</a></div>';
+    list = list + '<div class="title-card">' +
+      '<span>' + post.date + '</span>' +
+      '<a href="#/' + page + '/' + post.id + '">' + title + '</a>' +
+      markdown.render(post.excerpt) +
+    '</div>';
   });
 
   return list;
@@ -61,9 +71,27 @@ function findDate(str) {
   return date;
 }
 
+function findExcerpt(md) {
+  var mdArr = md.split('\n');
+  var excerpt = '';
+
+  for(var i = 1; i< mdArr.length; i++) { // assume the first line is title
+    var line = mdArr[i];
+    if(/^[a-zA-Z\*]+.*$/.test(line)) {
+      excerpt = excerpt + line + '\n';
+    }
+    if(excerpt.length > 300) {
+      break;
+    }
+  }
+
+  return excerpt.trim();
+}
+
 module.exports = {
   findTitle: findTitle,
   sortPosts: sortPosts,
   renderList: renderList,
-  findDate: findDate
+  findDate: findDate,
+  findExcerpt: findExcerpt
 };

@@ -17,10 +17,12 @@ fs.readdir(postsPath, function(err, files) {
     var key = shortid.generate();
     var md = fs.readFileSync(path.join(__dirname, '/posts/', file.base), 'utf8');
     var title = utils.findTitle(md);
+    var excerpt = utils.findExcerpt(md);
     db[key] = {
       name: file.name,
       ext: file.ext,
-      title: title
+      title: title,
+      excerpt: excerpt
     }
   });
   fs.outputJsonSync(path.join(__dirname, '/db.json'), db);

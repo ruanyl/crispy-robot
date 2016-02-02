@@ -176,11 +176,11 @@ a:hover {
 .title-card {
   border-radius: 3px;
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
   padding-left: 20px;
   padding-right: 20px;
 }
-.title-card a {
+.title-card > a {
   display: block;
   font-size: 3.1rem;
   line-height: 1.12;
@@ -194,4 +194,8 @@ a:hover {
 }
 .title-card span {
   color: rgba(0,0,0,0.44);
+}
+.title-card > p {
+  color: rgba(0, 0, 0, .5);
+  margin-top: 20px;
 }
