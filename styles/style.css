@@ -199,3 +199,13 @@ a:hover {
   color: rgba(0, 0, 0, .5);
   margin-top: 20px;
 }
+#banner {
+  padding-top: 80px;
+  padding-bottom: 50px;
+  text-align: center;
+}
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}

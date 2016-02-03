@@ -1,6 +1,9 @@
+require('es6-promise').polyfill();
+var fetch = require('isomorphic-fetch');
 var markdown = require('markdown-it')({
   html: true
 });
+var conf = require('../site.conf.json');
 
 function findTitle(md) {
   var title = '';
@@ -71,7 +74,7 @@ function findDate(str) {
   return date;
 }
 
-function findExcerpt(md) {
+function findExcerpt(md) { // very basic method
   var mdArr = md.split('\n');
   var excerpt = '';
 
@@ -88,10 +91,26 @@ function findExcerpt(md) {
   return excerpt.trim();
 }
 
+function fetchGithubUser() {
+  var userUrl = 'https://api.github.com/users/' + conf.username;
+  return fetch(userUrl)
+  .then(function(res) {
+    return res.json();
+  });
+}
+
+function renderBanner(user) {
+  var bannerHtml = '<img class="avatar" src="' + user.avatar_url + '" />' +
+    '<p><a href="' + user.html_url + '">'+ (user.name || user.login) + '@Github</a></p>';
+  return bannerHtml;
+}
+
 module.exports = {
   findTitle: findTitle,
   sortPosts: sortPosts,
   renderList: renderList,
   findDate: findDate,
-  findExcerpt: findExcerpt
+  findExcerpt: findExcerpt,
+  fetchGithubUser: fetchGithubUser,
+  renderBanner: renderBanner
 };

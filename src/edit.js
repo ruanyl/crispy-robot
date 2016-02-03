@@ -138,6 +138,7 @@ function hashChanged(hash) {
   document.querySelector('#viewContainer').style.display = 'none';
   document.querySelector('#editContainer').style.display = 'none';
   document.querySelector('#listContainer').style.display = 'none';
+  document.querySelector('#banner').style.display = 'none';
 
   hash = hash.split('/');
   switch(hash[1]) {
@@ -154,10 +155,12 @@ function hashChanged(hash) {
       toAdd();
       break;
     case 'list':
+      document.querySelector('#banner').style.display = 'block';
       document.querySelector('#listContainer').style.display = 'block';
       toList();
       break;
     default:
+      document.querySelector('#banner').style.display = 'block';
       document.querySelector('#listContainer').style.display = 'block';
       toList();
       break;
@@ -188,7 +191,20 @@ function toEdit(id) {
   });
 }
 
+var user = null;
+
 function toList() {
+  if(!user) {
+    utils.fetchGithubUser()
+    .then(function(user) {
+      return utils.renderBanner(user);
+    }).then(function(bannerHtml) {
+      document.querySelector('#banner').innerHTML = bannerHtml;
+    });
+  } else {
+    document.querySelector('#banner').innerHTML = utils.renderBanner(user);
+  }
+
   fetch('/list/')
   .then(function(res) {
     return res.json();
