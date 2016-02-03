@@ -22,5 +22,6 @@ How to use:
 
 ### TODO:
 - [ ] theme support
+- [ ] a markdown editor is working in progress
 
 Pull requests are welcome!
