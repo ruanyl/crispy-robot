@@ -8,7 +8,7 @@ How to use:
 
 1. git clone https://github.com/ruanyl/crispy-robot.git
 2. cd crispy-robot, run `npm install`
-3. copy all your posts which are `markdown` format to `posts` folder
+3. `mkdir posts`, then copy all your posts which are `markdown` format to `posts` folder
 4. open site.conf.json
 
   ```
