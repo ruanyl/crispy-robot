@@ -23,5 +23,6 @@ How to use:
 ### TODO:
 - [ ] theme support
 - [ ] render html from template, so that page contents like `title` can be easily added
+- [ ] a markdown editor is working in progress
 
 Pull requests are welcome!
