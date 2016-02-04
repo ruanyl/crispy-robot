@@ -133,7 +133,6 @@ addBtn.addEventListener('click', function(e) {
 });
 
 function hashChanged(hash) {
-  console.log(hash);
   document.querySelector('#addContainer').style.display = 'none';
   document.querySelector('#viewContainer').style.display = 'none';
   document.querySelector('#editContainer').style.display = 'none';
@@ -143,10 +142,12 @@ function hashChanged(hash) {
   hash = hash.split('/');
   switch(hash[1]) {
     case 'view':
+      document.querySelector('#viewContainer').innerHTML = '';
       document.querySelector('#viewContainer').style.display = 'block';
       toView(hash[2]);
       break;
     case 'edit':
+      document.querySelector('#editContainer .editable').innerHTML = '';
       document.querySelector('#editContainer').style.display = 'block';
       toEdit(hash[2]);
       break;

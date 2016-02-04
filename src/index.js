@@ -35,6 +35,7 @@ function hashChanged(hash) {
   hash = hash.split('/');
   switch(hash[1]) {
     case 'view':
+      document.querySelector('#viewContainer').innerHTML = '';
       document.querySelector('#viewContainer').style.display = 'block';
       toView(hash[2]);
       break;

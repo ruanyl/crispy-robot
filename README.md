@@ -22,5 +22,6 @@ How to use:
 
 ### TODO:
 - [ ] theme support
+- [ ] render html from template, so that page contents like `title` can be easily added
 
 Pull requests are welcome!
