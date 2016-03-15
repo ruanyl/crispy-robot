@@ -198,12 +198,12 @@ function toList() {
   if(!user) {
     utils.fetchGithubUser()
     .then(function(user) {
-      return utils.renderBanner(user);
+      return utils.renderMenu(user);
     }).then(function(bannerHtml) {
       document.querySelector('#banner').innerHTML = bannerHtml;
     });
   } else {
-    document.querySelector('#banner').innerHTML = utils.renderBanner(user);
+    document.querySelector('#menu').innerHTML = utils.renderMenu(user);
   }
 
   fetch('/list/')

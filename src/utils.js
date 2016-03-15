@@ -99,10 +99,9 @@ function fetchGithubUser() {
   });
 }
 
-function renderBanner(user) {
-  var bannerHtml = '<img class="avatar" src="' + user.avatar_url + '" />' +
-    '<p><a href="' + user.html_url + '">'+ (user.name || user.login) + '@Github</a></p>';
-  return bannerHtml;
+function renderMenu(user) {
+  var menuHtml = '<a class="menu-item" href="/">Home</a><a class="menu-item" href="' + user.html_url + '">About</a><a class="avatar" href="' + user.html_url + '"><img src="' + user.avatar_url + '" /></a>';
+  return menuHtml;
 }
 
 module.exports = {
@@ -112,5 +111,5 @@ module.exports = {
   findDate: findDate,
   findExcerpt: findExcerpt,
   fetchGithubUser: fetchGithubUser,
-  renderBanner: renderBanner
+  renderMenu: renderMenu
 };

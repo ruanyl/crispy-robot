@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 html {
   box-sizing: border-box;
   font-size: 62.5%;
@@ -151,7 +154,7 @@ img {
   max-width: 100%;
 }
 a {
-  color: #2ecc71;
+  color: #00ab6b;
   font-weight: bold;
   text-decoration: none;
 }
@@ -177,8 +180,6 @@ a:hover {
   border-radius: 3px;
   margin-top: 10px;
   margin-bottom: 60px;
-  padding-left: 20px;
-  padding-right: 20px;
 }
 .title-card > a {
   display: block;
@@ -187,7 +188,7 @@ a:hover {
   letter-spacing: -0.022rem;
   font-family: "medium-content-sans-serif-font","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
   font-style: normal;
-  color: #00ab6b;
+  color: #333332;
   text-transform: capitalize;
   border-top: 1px solid #ccc;
   padding-top: 5px;
@@ -199,13 +200,32 @@ a:hover {
   color: rgba(0, 0, 0, .5);
   margin-top: 20px;
 }
-#banner {
-  padding-top: 80px;
-  padding-bottom: 50px;
-  text-align: center;
+#menu {
+  margin-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .avatar {
-  width: 120px;
-  height: 120px;
+  display: block;
+  float: right;
+  margin-right: 20px;
+}
+.avatar img {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
+}
+.menu-item {
+  display: block;
+  float: left;
+  font-family: "Helvetica Neue", "Open Sans", Arial, Helvetica, sans-serif;
+  padding-right: 20px;
+  line-height: 50px;
+  color: #999999;
+  font-size: 2rem;
+}
+.clearfix {
+  content: "";
+  display: table;
+  clear: both;
 }

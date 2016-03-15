@@ -30,7 +30,6 @@ var postsUrl = 'https://api.github.com/repos' + conf.username + '/' + conf.repo 
 function hashChanged(hash) {
   document.querySelector('#viewContainer').style.display = 'none';
   document.querySelector('#listContainer').style.display = 'none';
-  document.querySelector('#banner').style.display = 'none';
 
   hash = hash.split('/');
   switch(hash[1]) {
@@ -40,12 +39,10 @@ function hashChanged(hash) {
       toView(hash[2]);
       break;
     case 'list':
-      document.querySelector('#banner').style.display = 'block';
       document.querySelector('#listContainer').style.display = 'block';
       toList();
       break;
     default:
-      document.querySelector('#banner').style.display = 'block';
       document.querySelector('#listContainer').style.display = 'block';
       toList();
       break;
@@ -54,6 +51,17 @@ function hashChanged(hash) {
 
 var posts = null;
 var user = null;
+
+if(!user) {
+  utils.fetchGithubUser()
+  .then(function(user) {
+    return utils.renderMenu(user);
+  }).then(function(menuHtml) {
+    document.querySelector('#menu').innerHTML = menuHtml;
+  });
+} else {
+  document.querySelector('#menu').innerHTML = utils.renderMenu(user);
+}
 
 function toView(id) {
   if(posts && posts[id]) {
@@ -107,17 +115,6 @@ function renderList(posts) {
 }
 
 function toList() {
-  if(!user) {
-    utils.fetchGithubUser()
-    .then(function(user) {
-      return utils.renderBanner(user);
-    }).then(function(bannerHtml) {
-      document.querySelector('#banner').innerHTML = bannerHtml;
-    });
-  } else {
-    document.querySelector('#banner').innerHTML = utils.renderBanner(user);
-  }
-
   if(!posts) {
     fetchDb()
     .then(function(db) {
