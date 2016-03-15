@@ -1,0 +1,20 @@
+{
+  "VyGd5PWag": {
+    "name": "2015-12-16-social-login-is-important",
+    "ext": ".md",
+    "title": "How to Use Social Login to Drive Your App’s Growth",
+    "excerpt": "Here are 3 ways to use social login to improve conversion rates, get users to activation as quickly as possible, and re-engage and retain users. In short, social login helps you broaden your funnel, turn users into customers, and drive down churn—which provides the basis for long-term and sustainable growth."
+  },
+  "4JxfOqvW6e": {
+    "name": "2016-01-04-JWT-Authentication",
+    "ext": ".md",
+    "title": "Secure Your React and Redux App with JWT Authentication",
+    "excerpt": "There are many benefits to using unidirectional data flow in single page applications. Perhaps the biggest is that as applications become larger, it is easier to reason about how data affects the app's states and views. Although patterns and libraries like Flux have been popularized by React, we certainly aren't limited to using the two together. It's now common to see unidirectional data flow patterns in other frameworks, such as [AngularJS](https://github.com/christianalfoni/flux-angular)."
+  },
+  "VJZf_cDb6x": {
+    "name": "2016-01-13-A-Look-at-Falcor-and-Relay",
+    "ext": ".md",
+    "title": "Rise of the High Boilerplate Framework: A Look at Falcor and Relay",
+    "excerpt": "**TL;DR:** Frameworks like [Falcor](https://netflix.github.io/falcor/) and [Relay](https://facebook.github.io/relay/) solve some hard problems but come at the cost of requiring a lot of boilerplate. Perhaps the boilerplate is a necessity, but this likely has implications for developer uptake.\nThere’s no shortage of JavaScript fatigue articles of course."
+  }
+}
