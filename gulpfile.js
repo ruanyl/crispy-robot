@@ -9,8 +9,6 @@ var concat = require('gulp-concat');
 
 var paths = {
   vendorStyles: [
-    './node_modules/medium-editor/dist/css/medium-editor.min.css',
-    './node_modules/medium-editor/dist/css/themes/default.min.css',
     './node_modules/highlight.js/styles/solarized-dark.css'
   ],
   vendorScripts: [
@@ -25,23 +23,7 @@ gulp.task('jsVendor', function() {
     .pipe(gulp.dest('./dist/js/'));
 });
 
-gulp.task('jsEdit', function() {
-  var b = browserify({
-    entries: './src/edit.js',
-    debug: true
-  });
-
-  return b.bundle()
-  .pipe(source('edit.js'))
-  .pipe(buffer())
-  .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(uglify())
-    .on('error', gutil.log)
-  .pipe(sourcemaps.write('./'))
-  .pipe(gulp.dest('./dist/js/'));
-});
-
-gulp.task('jsIndex', function() {
+gulp.task('js', function() {
   var b = browserify({
     entries: './src/index.js',
     debug: true
@@ -63,15 +45,15 @@ gulp.task('cssVendor', function() {
   .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('cssIndex', function() {
+gulp.task('css', function() {
   return gulp.src('./styles/**/*.css')
     .pipe(concat('style.css'))
     .pipe(gulp.dest('./dist/css/'));
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./src/**/*.js', ['jsEdit', 'jsIndex']);
-  gulp.watch('./styles/**/*.css', ['cssIndex']);
+  gulp.watch('./src/**/*.js', ['js']);
+  gulp.watch('./styles/**/*.css', ['css']);
 });
 
-gulp.task('build', ['jsEdit', 'jsIndex', 'cssVendor', 'jsVendor', 'cssIndex']);
+gulp.task('build', ['js', 'cssVendor', 'jsVendor', 'css']);
