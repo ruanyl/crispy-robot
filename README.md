@@ -1,7 +1,7 @@
 # crispy-robot
 dead "simple" Medium like blog, 100% hosted on Github
 
-### [demo](http://blog.bigruan.com/crispy-robot)
+### [demo](http://b.lili.li/crispy-robot)
 > sample articles are from [auth0](https://auth0.com/blog)
 
 How to use:
